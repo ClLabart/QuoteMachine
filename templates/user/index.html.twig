@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{# Titre de l'onglet #}
+{% block title %}{{ parent() }} - {{ userViewed.username }}{% endblock %}
+
+{# Titre centré dans la page #}
+{% block page_title %}Profil de "{{ userViewed.username }}"{% endblock %}
+
+{% block body %}
+
+{% set exp = (userViewed.quoting|length + userViewed.liked|length) %}
+{% set expLevel = 5 %}
+{# Niveau de l'utilisateur #}
+<div class="card p-4">
+    <label for="level" class="text-center">Niveau de l'utilisateur : <strong>{{ (exp / expLevel)|round(0, 'floor') }}</strong></label>
+    <div class="progress">
+    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="{{ ((exp % expLevel) / expLevel)*100 }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ ((exp % expLevel) / expLevel)*100 }}%"></div>
+    </div>
+</div>
+
+{# Affichage des informations via la variable userViewed dans UserController #}
+<h2 class="text-center">5 dernières citations</h2>
+<ul>
+    {% for quote in userViewed.quoting|slice(-5, userViewed.quoting|length) %}
+        {% include 'quote_machine/quote.html.twig' with {'quote' : quote} %}
+    {% endfor %}
+</ul>
+
+<h2 class="text-center">5 dernires likes</h2>
+<ul>
+    {% for like in userViewed.liked|slice(-5, userViewed.liked|length) %}
+        {% include 'quote_machine/quote.html.twig' with {'quote' : like} %}
+    {% endfor %}
+</ul>
+{% endblock %}

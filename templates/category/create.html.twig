@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+{# Formulaire de création et de moficiation (la variable pour le déterminer est buttonText) #}
+
+{# Titre de l'onglet #}
+{% block title %}
+	{{ parent() }} - {{ buttonText }} une catégorie
+{% endblock %}
+
+{# Titre centré dans la page #}
+{% block page_title %}{{ buttonText }} une catégorie{% endblock %}
+
+{% block body %}
+    {# Création du formulaire via le controlleur CategoryCrudController #}
+	{{ form_start(categoryForm) }}
+        <div class="mb-3">
+            <label class="form-label" for="category_form_name">Nom</label>
+            {{ form_widget(categoryForm.name) }}
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="category_form_imageFile_file">Image</label>
+            {{ form_widget(categoryForm.imageFile) }}
+        </div>
+        <button type="submit" class="btn btn-primary">{{ buttonText }}</button>
+	{{ form_end(categoryForm) }}
+{% endblock %}

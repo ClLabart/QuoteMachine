@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+{# Formulaire de création et de moficiation (la variable pour le déterminer est buttonText) #}
+
+{# Titre de l'onglet #}
+{% block title %}
+	{{ parent() }} - {{ buttonText }} une citation
+{% endblock %}
+
+{# Titre centré dans la page #}
+{% block page_title %}{{ buttonText }} une citation{% endblock %}
+
+{% block body %}
+    {# Création du formulaire via le controlleur QuoteMachineController #}
+	{{ form_start(quoteForm) }}
+        <div class="mb-3">
+            <label class="form-label" for="quote_form_content">Citation</label>
+            {{ form_widget(quoteForm.content) }}
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="quote_form_meta">Personnage et épisode</label>
+            {{ form_widget(quoteForm.meta) }}
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="quote_form_category">Catégorie</label>
+            {{ form_widget(quoteForm.category) }}
+        </div>
+        <button type="submit" class="btn btn-primary">{{ buttonText }}</button>
+	{{ form_end(quoteForm) }}
+{% endblock %}

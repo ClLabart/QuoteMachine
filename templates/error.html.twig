@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{# Titre de l'onglet #}
+{% block title %}
+	{{ parent() }} - Accueil
+{% endblock %}
+
+{# Titre centré dans la page #}
+{% block page_title %}Erreur{% endblock %}
+
+{% block body %}
+    {# Afficher les erreurs via les fonctions addFlash  #}
+	{% for message in app.flashes('error') %}
+        {# S'il s'agit d'une recherche de citation mais qu'aucune ne correspond alors research existe et prends la valeur de la recherche #}
+        <p class="alert alert-danger" role="alert">{{message}}{% if research is defined %} pour {{ research }}{% endif %}</p>
+    {% endfor %}
+{% endblock %}

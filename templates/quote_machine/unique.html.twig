@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{# Titre de l'onglet #}
+{% block title %}
+	{{ parent() }} - Citation de {{ quote.meta }}
+{% endblock %}
+
+{# Titre centré dans la page #}
+{% block page_title %}Citation de {{ quote.meta }}{% endblock %}
+
+{% block body %}
+	{# Affichage des citations via le tableau quotes #}
+	<ul>
+		{# Automatisation de l'affichage pour avoir un résultat identique #}
+    	{% include 'quote_machine/quote.html.twig' with {'quote' : quote} %}
+	</ul>
+
+	<h1 class="text-center mb-3">Liké par</h1>
+	<div class="container">
+		<ul class="⭐ d-flex align-items-center flex-column">
+			{# Affichage des utilisateurs ayant aimés la citation  #}
+			{% for user in quote.likes %}
+				<li class="mb-3"><a href="{{ path('app_user', {id: user.id}) }}">{{ user.username }}</a></li>
+			{% endfor %}
+		</ul>
+	</div>
+{% endblock %}

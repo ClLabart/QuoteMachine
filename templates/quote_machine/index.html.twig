@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{# Titre de l'onglet #}
+{% block title %}
+	{{ parent() }} - Accueil
+{% endblock %}
+
+{# Titre centré dans la page #}
+{% block page_title %}Les citations{% if research %} pour {{ research }}{% endif %}{% endblock %}
+
+{% block body %}
+	{# Affichage des citations via le tableau quotes #}
+	<ul>
+		{% for quote in quotes %}
+		{# Automatisation de l'affichage pour avoir un résultat identique #}
+			{% include 'quote_machine/quote.html.twig' with {'quote' : quote} %}
+		{% endfor %}
+	</ul>
+	{# Affichage de la pagination #}
+	{{ knp_pagination_render(quotes) }}
+{% endblock %}

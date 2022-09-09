@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{# Titre de l'onglet #}
+{% block title %}
+	{{ parent() }}
+	- Catégories
+{% endblock %}
+
+{# Titre centré dans la page #}
+{% block page_title %}Les catégories
+{% endblock %}
+
+{% block body %}
+	{# Création de la liste des catégories via le controlleur CategoryController #}
+	<ul class="d-flex flex-wrap justify-content-center">
+		{% for category in cat %}
+			<a href="{{ path('category_id', {id: category.id}) }}">
+				<li class="m-2 card" style="width: 18rem;">
+					{% if vich_uploader_asset(category) %}
+						{# Image de la catégorie #}
+						<img class="card-img-top" src="{{ vich_uploader_asset(category) }}" alt="{{ category.name }}">
+					{% endif %}
+
+					<div class="card-body">
+						{# Nom de la catégorie #}
+						<h2 class="card-title">{{ category.name }}</h2>
+
+						{# Bouton pour voir/modifier/supprimer les catégories #}
+						{# Vérifier que l'utilisateur as accès aux modifications #}
+						{% if app.user == category.createdBy or is_granted('ROLE_ADMIN') %}
+							<a class="btn btn-secondary" href="{{ path('category_edit', {id: category.id}) }}">Modifier</a>
+							<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#deleteCategory{{ category.id }}">Supprimer</button>
+
+							{# Modal pour la suppression des catégories et des citations reliées #}
+							<div class="modal fade" id="deleteCategory{{ category.id }}" tabindex="-1" role="dialog" aria-labelledby="Suppression de la catégorie" aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="deleteCategoryTitle">Supprimer la catégorie
+												{{category.name}}
+												?</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+											<p>Cela supprimera toutes les citations associées à cette catégorie</p>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+											<a class="btn btn-danger" href="{{ path('category_delete', {id: category.id}) }}">Supprimer</a>
+										</div>
+									</div>
+								</div>
+							</div>
+							{# Fin modal #}
+						{% endif %}
+					</div>
+				</li>
+			</a>
+		{% endfor %}
+	</ul>
+{% endblock %}

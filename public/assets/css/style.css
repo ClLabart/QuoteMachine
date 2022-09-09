@@ -1,0 +1,34 @@
+/* Rajouter un petit espace entre la barre de navigation et la contenu */
+main {
+  margin-top : 15px;
+}
+
+/* Retirer les points des listes */
+ul {
+  list-style: none;
+}
+
+blockquote {
+  margin: 0 0 0 1rem!important;
+  font-size: 1.2rem;
+}
+
+.quotes-like {
+  font-size: 3rem;
+}
+
+/* Créer l'effet des points de liste en émoji sur les likes */
+@counter-style stars {
+  system: cyclic;
+  symbols: "\1F52D" "\1F680" "\1F6F8" "\1F4E1" "\1F47E" "\1F47D";
+  suffix: " ";
+}
+
+.⭐ {
+  list-style: stars;
+}
+
+/* Gérer la taille des images dans la modification des catégories */
+.vich-image a img {
+  max-width: 400px;
+}

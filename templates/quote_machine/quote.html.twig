@@ -1,0 +1,47 @@
+{# Automatisation de l'affichage pour avoir un résultat identique sur chaque page via une source #}
+<li class="container">
+	<figure class="row">
+		<div class="col-md-2 d-flex flex-column justify-content-center align-items-center">
+			{# Affichage des likes #}
+			{% if app.user %}
+				{% if app.user in quote.likes %}
+					<a href="{{ path("quote_machine_unlike", {id: quote.id}) }}">
+						<i class="bi bi-balloon-heart-fill quotes-like"></i>
+					</a>
+				{% else %}
+					<a href="{{ path("quote_machine_like", {id: quote.id}) }}">
+						<i class="bi bi-balloon-heart quotes-like"></i>
+					</a>
+				{% endif %}
+			{% else %}
+				<i class="bi bi-balloon-heart quotes-like"></i>
+			{% endif %}
+			{{ quote.likes|length }}
+		</div>
+		<div class="col-md-8">
+			<a href="{{ path('quote_machine_id', {id: quote.id}) }}"><blockquote>
+				{# Affichage de la citation #}
+				<strong>{{ quote.content }}</strong>
+			</blockquote></a>
+			<figcaption>
+				{# Affichage des sources de la citation #}
+				<p class="blockquote-footer">
+					<cite>{{ quote.meta }}</cite>
+					le
+					{{ quote.createdAt|date("d/m/Y") }}
+					par
+					<a href="{{ path('app_user', {id:quote.userQuoting.id}) }}">{{ quote.userQuoting.username }}</a>
+					<a href="{{ path('category_id', {id: quote.category.id})}}">
+						<span class="badge badge-dark p-2">{{ quote.category.name }}</span>
+					</a>
+				</p>
+			</figcaption>
+			{# Boutons pour voir/editer/supprimer #}
+			
+			{% if app.user == quote.userQuoting or is_granted('ROLE_ADMIN') %}
+				<a class="btn btn-secondary" href="{{ path('quote_machine_edit', {id: quote.id}) }}">Modifier</a>
+				<a class="btn btn-secondary" href="{{ path('quote_machine_delete', {id: quote.id}) }}">Supprimer</a>
+			{% endif %}
+		</div>
+	</figure>
+</li>
